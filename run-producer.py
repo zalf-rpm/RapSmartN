@@ -40,7 +40,7 @@ def run_producer(server=None, port=None):
         "sim.json": os.path.join(os.path.dirname(__file__), "sim.json"),
         "crop.json": os.path.join(os.path.dirname(__file__), "crop.json"),
         "site.json": os.path.join(os.path.dirname(__file__), "site.json"),
-        "monica_path_to_climate_dir": r"C:\Users\escueta\PycharmProjects\RapSmartN\data",
+        "monica_path_to_climate_dir": r"C:\Users\Linda\OneDrive\Desktop\ZALF\RapSmartN\data",
         # "monica_path_to_climate_dir": r"C:\Users\escueta\PycharmProjects\RapSmartN\data",
         "path_to_data_dir": "./data/",
         "path_to_out": "out/",
