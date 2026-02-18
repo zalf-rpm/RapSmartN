@@ -1,0 +1,62 @@
+{
+	"crops": {
+		"WRa": {
+			"is-winter-crop": true,
+			"residueParams": ["include-from-file", "monica-parameters/crop-residues/rape.json"],
+			"cropParams": {
+				"cultivar": ["include-from-file", "monica-parameters/crops/rape/winter-rape.json"],
+				"species": ["include-from-file", "monica-parameters/crops/rape.json"]
+			}
+		}
+	},
+
+	"fert-params": {
+		"AN": ["include-from-file", "monica-parameters/mineral-fertilisers/AN.json"],
+		"NS": ["include-from-file", "monica-parameters/mineral-fertilisers/NS.json"]
+	},
+
+	"fert_min_template": {
+		"date": "2022-03-25",
+		"type": "MineralFertilization",
+		"amount": [72.0, "kg N"],
+		"partition": {
+			"Carbamid":0,
+			"NH4":0.5,
+			"NO3":0.5
+		  }
+	},
+
+	"irrig_template": {
+		"date": "2022-05-22",
+		"type": "Irrigation",
+		"amount": [20.0, "mm"]
+	},
+
+	"till_template": {
+		"date": "2022-04-11",
+		"type": "Tillage",
+		"depth": [0.1, "m"]
+	},
+
+	"cropRotationTemplates": {
+		"WRa": [{
+			"worksteps": [
+				{
+					"type": "Sowing",
+					"crop": ["ref", "crops", "WRa"],
+					"date": "2008-09-29"
+				},
+				{
+					"type": "Harvest",
+					"date": "2009-07-06"
+				}
+			]
+		}]
+	},
+
+	"cropRotation": ["ref", "cropRotationTemplates", "WRa"],
+
+	"CropParameters": {
+		"=": ["include-from-file", "monica-parameters/general/crop.json"]
+	}
+}
