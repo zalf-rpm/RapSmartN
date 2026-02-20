@@ -1,0 +1,50 @@
+{
+	"climate.csv": "",
+	"site.json": "",
+	"crop.json": "",
+	"climate.csv-options": {
+		"start-date": "0001-04-03",
+		"csv-separator": ";",
+		"no-of-climate-file-header-lines": 2,
+		"header-to-acd-names": {
+			"MESS_DATUM": "de-date",
+			"TNK": "tmin",
+			"TXK": "tmax",
+			"TMK": "tavg",
+			"UPM": "relhumid",
+			"FM": "wind",
+			"RSK": "precip",
+			"globrad": "globrad"
+		}
+	},
+	"debug?": false,
+	"output": {
+		"write-file?": true,
+		"path-to-output": "",
+		"file-name": "sim-large.csv",
+		"obj-outputs?": true,
+		"csv-options": {
+			"include-header-row": true,
+			"include-units-row": true,
+			"csv-separator": ","
+		},
+		"events": [
+			"daily", [
+				"Date",
+				"Crop",
+				"Yield",
+				"AbBiom"
+			]
+		]
+	},
+	"include-file-base-path": "data/",
+	"NitrogenResponseOn": true,
+	"EmergenceMoistureControlOn": false,
+	"EmergenceFloodingControlOn": false,
+	"WaterDeficitResponseOn": true,
+	"NumberOfLayers": 20,
+	"LayerThickness": [0.1, "m"],
+	"UseSecondaryYields": true,
+	"UseAutomaticIrrigation": false,
+	"UseNMinMineralFertilisingMethod": false
+}
