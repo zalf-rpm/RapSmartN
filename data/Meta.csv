@@ -1,2 +1,5 @@
 Experiment;Name;Weather;Soil;Year;Sowing;Harvest;Irrigation;Management;Fertilisation_org;Fertilisation_min;Residues;CO2;Crop;Cultivar;Lat;Long;Elevation
-EX1;ATB_Marquart;weather1;soil1;2015;19.10.2014;22.07.2015;irrig1;no_manag;no_fert;no_fert;no_resi;no_co2;WRa;Aurelia;52.467;12.959;40
+EX1;RapSmartN;weather2;soil1;2023;19.08.2022;22.07.2023;no_irrig;manag1;no_fert;fert1;no_resi;no_co2;WRa;Aurelia;52.467;12.959;40
+EX2;RapSmartN;weather2;soil1;2024;18.08.2023;15.07.2024;no_irrig;manag2;no_fert;fert2;no_resi;no_co2;WRa;Aurelia;52.467;12.959;40
+EX3;RapSmartN;weather2;soil1;2025;10.09.2024;16.07.2025;no_irrig;manag3;no_fert;fert3;no_resi;no_co2;WRa;Aurelia;52.467;12.959;40
+EX4;RapSmartN;weather2;soil1;2026;16.08.2025;12.01.2026;no_irrig;manag4;no_fert;fert4;no_resi;no_co2;WRa;Aurelia;52.467;12.959;40
