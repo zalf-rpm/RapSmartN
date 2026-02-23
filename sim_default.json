@@ -5,16 +5,16 @@
 	"climate.csv-options": {
 		"start-date": "0001-04-03",
 		"csv-separator": ";",
-		"no-of-climate-file-header-lines": 2,
+		"no-of-climate-file-header-lines": 1,
 		"header-to-acd-names": {
-			"MESS_DATUM": "de-date",
-			"TNK": "tmin",
-			"TXK": "tmax",
-			"TMK": "tavg",
-			"UPM": "relhumid",
-			"FM": "wind",
-			"RSK": "precip",
-			"globrad": "globrad"
+			"Date": "de-date",
+			"TempMin": "tmin",
+			"TempMax": "tmax",
+			"TempMean": "tavg",
+			"RelHumCalc": "relhumid",
+			"Windspeed": "wind",
+			"Precipitation": "precip",
+			"Radiation": "globrad"
 		}
 	},
 	"debug?": false,
