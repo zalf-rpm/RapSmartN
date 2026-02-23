@@ -33,7 +33,8 @@
 	
 			{"start": "xxxx-08-01", "end": "xxxx-11-30", "at": "xxxx-xx-xx"}, [
 				"Date",
-				"Harvest",
+				"DOY",
+				"Year",
 				"Crop",
 				"Yield",
 				"AbBiom",
