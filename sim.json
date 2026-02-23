@@ -4,17 +4,18 @@
 	"crop.json": "",
 	"climate.csv-options": {
 		"start-date": "0001-04-03",
+		"end-date": "0001-06-03",
 		"csv-separator": ";",
 		"no-of-climate-file-header-lines": 1,
 		"header-to-acd-names": {
-			"Date": "de-date",
-			"TempMin": "tmin",
-			"TempMax": "tmax",
-			"TempMean": "tavg",
-			"RelHumCalc": "relhumid",
-			"Windspeed": "wind",
-			"Precipitation": "precip",
-			"Radiation": "globrad"
+			"MESS_DATUM": "de-date",
+			"TNK": "tmin",
+			"TXK": "tmax",
+			"TMK": "tavg",
+			"UPM": "relhumid",
+			"FM": "wind",
+			"RSK": "precip",
+			"globrad": "globrad"
 		}
 	},
 	"debug?": false,
@@ -29,11 +30,19 @@
 			"csv-separator": ","
 		},
 		"events": [
-			"daily", [
+	
+			{"start": "xxxx-08-01", "end": "xxxx-11-30", "at": "xxxx-xx-xx"}, [
 				"Date",
+				"Harvest",
 				"Crop",
 				"Yield",
-				"AbBiom"
+				"AbBiom",
+				"AbBiomNc",
+				"SumNUp",
+				"TempSum"
+			],
+			{"start": "xxxx-08-01", "end": "xxxx-11-30"}, [
+				["TempSum|CumTempSum", "SUM"]
 			]
 		]
 	},
