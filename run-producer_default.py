@@ -37,9 +37,9 @@ def run_producer(server=None, port=None):
         "mode": "mbm-local-remote",
         "server-port": port if port else "6666",
         "server": server if server else "localhost",
-        "sim.json": os.path.join(os.path.dirname(__file__), "sim.json"),
+        "sim.json": os.path.join(os.path.dirname(__file__), "sim_default.json"),
         "crop.json": os.path.join(os.path.dirname(__file__), "crop.json"),
-        "site.json": os.path.join(os.path.dirname(__file__), "site.json"),
+        "site.json": os.path.join(os.path.dirname(__file__), "site_default.json"),
         "monica_path_to_climate_dir": r"C:\Users\Linda\OneDrive\Desktop\ZALF\RapSmartN\data",
         # "monica_path_to_climate_dir": r"C:\Users\escueta\PycharmProjects\RapSmartN\data",
         "path_to_data_dir": "./data/",
@@ -93,10 +93,10 @@ def run_producer(server=None, port=None):
         soil_profiles[soil_name].append(layer)
 
     # Read metadata and management data
-    metadata_df = pd.read_csv(f"{config['path_to_data_dir']}/Meta.csv", sep=';')
-    fert_min_df = pd.read_csv(f"{config['path_to_data_dir']}/Fertilisation_min.csv", sep=';')
+    metadata_df = pd.read_csv(f"{config['path_to_data_dir']}/Meta_default.csv", sep=';')
+    fert_min_df = pd.read_csv(f"{config['path_to_data_dir']}/Fertilisation_min_default.csv", sep=';')
     irrig_df = pd.read_csv(f"{config['path_to_data_dir']}/Irrigation.csv", sep=';')
-    till_df = pd.read_csv(f"{config['path_to_data_dir']}/Management.csv", sep=';')
+    till_df = pd.read_csv(f"{config['path_to_data_dir']}/Management_default.csv", sep=';')
 
     # Merge datasets
     merged_df_fert_min = pd.merge(metadata_df, fert_min_df, on='Fertilisation_min')
@@ -187,7 +187,6 @@ def run_producer(server=None, port=None):
 
         start_date = sowing_date - relativedelta(months=6)
         env_template["csvViaHeaderOptions"]["start-date"] = start_date.strftime('%Y-%m-%d')
-        env_template["csvViaHeaderOptions"]["end-date"] = worksteps_copy[-1]["date"]
 
         for date in sorted(dates):
             if date in exp_no_to_fertilizers[exp_no]:
