@@ -51,7 +51,7 @@ def run_consumer(server=None, port=None):
 
         # Write headers
         daily_writer.writerow([
-            "Experiment", "Date", "DOY", "Year", "Yield", "AbBiom", "AbBiomNc", "SumNUp", "TempSum"
+            "Experiment", "Date", "DOY", "Year",  "Yield", "AbBiom", "OrgBiom", "AbBiomNc", "SumNUp", "TempSum"
         ])
 
         no_of_exps_to_receive = None
@@ -88,7 +88,7 @@ def run_consumer(server=None, port=None):
                     # if not sowing_date:
                     #     sowing_date = vals["Date"]
 
-                    row = [exp_no, vals["Date"], vals["DOY"], vals["Year"], vals["Yield"], vals["AbBiom"], vals["AbBiomNc"], vals["SumNUp"], vals["TempSum"]]
+                    row = [exp_no, vals["Date"], vals["DOY"], vals["Year"], vals["Yield"], vals["AbBiom"], vals["DM"], vals["AbBiomNc"], vals["SumNUp"], vals["TempSum"]]
                     daily_writer.writerow(row)
 
             except Exception as e:

@@ -38,6 +38,7 @@
 				"Crop",
 				"Yield",
 				"AbBiom",
+				["OrgBiom|DM", "Leaf"],
 				"AbBiomNc",
 				"SumNUp",
 				"TempSum"
