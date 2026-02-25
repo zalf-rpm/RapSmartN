@@ -50,9 +50,10 @@ def run_consumer(server=None, port=None):
         daily_writer = csv.writer(daily_f, delimiter=",")
 
         # Write headers
+        mois_header_row = [f"Mois_{i}" for i in range(1, 3)]
         daily_writer.writerow([
-            "Experiment", "Date", "DOY", "Year",  "Yield", "AbBiom", "OrgBiom", "AbBiomNc", "SumNUp", "TempSum"
-        ])
+            "Experiment", "Date", "DOY", "Year",  "Yield", "AbBiom", "OrgBiom", "AbBiomNc", "SumNUp", "TempSum", "Stage"
+        ] + mois_header_row)
 
         no_of_exps_to_receive = None
         no_of_exps_received = 0
@@ -88,7 +89,9 @@ def run_consumer(server=None, port=None):
                     # if not sowing_date:
                     #     sowing_date = vals["Date"]
 
-                    row = [exp_no, vals["Date"], vals["DOY"], vals["Year"], vals["Yield"], vals["AbBiom"], vals["DM"], vals["AbBiomNc"], vals["SumNUp"], vals["TempSum"]]
+                    mois_data = vals["Mois1"]
+
+                    row = [exp_no, vals["Date"], vals["DOY"], vals["Year"], vals["Yield"], vals["AbBiom"], vals["DM"], vals["AbBiomNc"], vals["SumNUp"], vals["TempSum"], vals["Stage"]] + mois_data
                     daily_writer.writerow(row)
 
             except Exception as e:
