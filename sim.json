@@ -39,9 +39,11 @@
 				"Yield",
 				"AbBiom",
 				["OrgBiom|DM", "Leaf"],
+				["Mois|Mois1", [1, 2], "SUM"],
 				"AbBiomNc",
 				"SumNUp",
-				"TempSum"
+				"TempSum",
+				"Stage"
 			],
 			{"start": "xxxx-08-01", "end": "xxxx-11-30"}, [
 				["TempSum|CumTempSum", "SUM"]
