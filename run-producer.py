@@ -58,10 +58,14 @@ def run_producer(server=None, port=None):
     with open(config["crop.json"]) as _:
         crop_json = json.load(_)
 
+    with open("data/monica-parameters/organic-fertilisers/WS.json") as f:
+        ws_fert_params = json.load(f)
+
     # Extract templates from crop configuration
     fert_min_template = crop_json.pop("fert_min_template")
     irrig_template = crop_json.pop("irrig_template")
     till_template = crop_json.pop("till_template")
+    resi_template = crop_json.pop("resi_template")
 
     # Read soil data and fill missing values
     soil_df = pd.read_csv(f"{config['path_to_data_dir']}/Soil.csv", sep=';')
@@ -97,15 +101,18 @@ def run_producer(server=None, port=None):
     fert_min_df = pd.read_csv(f"{config['path_to_data_dir']}/Fertilisation_min.csv", sep=';')
     irrig_df = pd.read_csv(f"{config['path_to_data_dir']}/Irrigation.csv", sep=';')
     till_df = pd.read_csv(f"{config['path_to_data_dir']}/Management.csv", sep=';')
+    resi_df = pd.read_csv(f"{config['path_to_data_dir']}/Residues.csv", sep=';')
 
     # Merge datasets
     merged_df_fert_min = pd.merge(metadata_df, fert_min_df, on='Fertilisation_min')
     merged_df_irrig = pd.merge(metadata_df, irrig_df, on='Irrigation')
     merged_df_till = pd.merge(metadata_df, till_df, on='Management')
+    merged_df_resi = pd.merge(metadata_df, resi_df, on='Residues')
 
     exp_no_to_fertilizers = defaultdict(dict)
     exp_no_to_irrigation = defaultdict(dict)
     exp_no_to_management = defaultdict(dict)
+    exp_no_to_residues = defaultdict(dict)
 
     for _, row in merged_df_fert_min.iterrows():
         if pd.isna(row['Fertilisation_min']) or row['Fertilisation_min'] == 'no_fert':
@@ -130,6 +137,16 @@ def run_producer(server=None, port=None):
         till_temp["date"] = datetime.strptime(row['Date'], '%d.%m.%Y').strftime('%Y-%m-%d')
         till_temp["depth"] = [float(row['Depth']) / 100.0, 'm']
         exp_no_to_management[row['Experiment']][till_temp["date"]] = till_temp
+
+    for _, row in merged_df_resi.iterrows():
+        if pd.isna(row['Residues']) or row['Residues'] == 'no_resi':
+            continue
+        resi_temp = copy.deepcopy(resi_template)
+        resi_temp["date"] = datetime.strptime(row['Date'], '%d.%m.%Y').strftime('%Y-%m-%d')
+        resi_temp["amount"][0] = float(row['Amount'])
+        if row['Material'] == 'Straw':
+            resi_temp["parameters"] = copy.deepcopy(ws_fert_params)
+        exp_no_to_residues[row['Experiment']][resi_temp["date"]] = resi_temp
 
     exp_no_to_meta = metadata_df.set_index('Experiment').T.to_dict('dict')
     no_of_exps = 0
@@ -177,7 +194,7 @@ def run_producer(server=None, port=None):
         # complete crop rotation
         dates = set()
         dates.update(exp_no_to_fertilizers[exp_no].keys(), exp_no_to_irrigation[exp_no].keys(),
-                     exp_no_to_management[exp_no].keys())
+                     exp_no_to_management[exp_no].keys(), exp_no_to_residues[exp_no].keys())
 
         worksteps_copy = copy.deepcopy(worksteps)
         sowing_date = datetime.strptime(meta['Sowing'], '%d.%m.%Y')
@@ -187,7 +204,6 @@ def run_producer(server=None, port=None):
 
         start_date = sowing_date - relativedelta(months=6)
         env_template["csvViaHeaderOptions"]["start-date"] = start_date.strftime('%Y-%m-%d')
-        env_template["csvViaHeaderOptions"]["end-date"] = worksteps_copy[-1]["date"]
 
         for date in sorted(dates):
             if date in exp_no_to_fertilizers[exp_no]:
@@ -200,8 +216,23 @@ def run_producer(server=None, port=None):
                 # Only add tillage events happening after sowing and before harvest
                 if tillage_date >= sowing_date and tillage_date <= harvest_date:
                     worksteps_copy.insert(-1, tillage_event)
+            if date in exp_no_to_residues[exp_no]:
+                # Add residue events as organic fertilization events
+                residue_event = copy.deepcopy(exp_no_to_residues[exp_no][date])
+                residue_date = datetime.strptime(residue_event["date"], '%Y-%m-%d')
+                # Add residues after harvest if the residue application date is after harvest
+                if residue_date > harvest_date:
+                    worksteps_copy.append(residue_event)
+                else:
+                    # Add residues before harvest if the residue application date is before or on harvest
+                    worksteps_copy.insert(-1, residue_event)
 
         env_template["cropRotation"][0]["worksteps"] = worksteps_copy
+
+        # Set simulation end date to one day after the last event date
+        last_event_date = datetime.strptime(worksteps_copy[-1]["date"], '%Y-%m-%d')
+        end_date = last_event_date + relativedelta(days=1)
+        env_template["csvViaHeaderOptions"]["end-date"] = end_date.strftime('%Y-%m-%d')
 
         env_template["customId"] = {
             "nodata": False,
