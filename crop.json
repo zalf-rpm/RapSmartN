@@ -15,6 +15,10 @@
 		"NS": ["include-from-file", "monica-parameters/mineral-fertilisers/NS.json"]
 	},
 
+	"resi-params": {
+		"WS": ["include-from-file", "monica-parameters/organic-fertilisers/WS.json"]
+	},
+
 	"fert_min_template": {
 		"date": "2022-03-25",
 		"type": "MineralFertilization",
@@ -36,6 +40,14 @@
 		"date": "2022-04-11",
 		"type": "Tillage",
 		"depth": [0.1, "m"]
+	},
+
+	"resi_template": {
+		"date": "2022-06-26",
+		"type": "OrganicFertilization",
+		"amount": [30000, "kg"],
+		"parameters": ["ref", "resi-params", "WS"],
+		"incorporation": true
 	},
 
 	"cropRotationTemplates": {
